@@ -44,7 +44,7 @@ class App extends Component {
     }
 
     this.setState({
-      guessesLeft: Math.ceil(0.6 * randomWord.length),
+      guessesLeft: Math.ceil(0.9 * randomWord.length),
       currentWord,
       displayedChars: new Array(randomWord.length).fill('__'),
       wrongChars: new Set()
@@ -98,6 +98,7 @@ class App extends Component {
       wrongChars = new Set(wrongChars);
       wrongChars.add(char);
       
+      // check if the game was lost
       if (guessesLeft === 1) {
         losses++;
         scores = scores.concat({ 

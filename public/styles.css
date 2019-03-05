@@ -65,8 +65,8 @@ button.restart-game {
 
 .score-table caption {
   display: block;
-  width: fit-content;
-  margin: 0 auto;
+  width: 100%;
+  margin-left: 50px;
 }
 
 .score-table table, th, td {

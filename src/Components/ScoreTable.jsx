@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ScoreTable = props => {
   const { scores } = props;
 
   return (
     <div className="score-table">
-      <caption>Score Table</caption>
       <table>
         <thead>
+          <caption>Score Table</caption>
           <tr>
             <th>Wrong Guesses</th>
             <th>Word</th> 
@@ -15,7 +16,7 @@ const ScoreTable = props => {
           </tr>
         </thead>
         <tbody>
-          {scores.map(score => (
+          {scores.reverse().map(score => (
             <tr key={score.word}>
               <td>{score.wrongGuesses.length}</td>
               <td>{score.word}</td> 
@@ -26,6 +27,10 @@ const ScoreTable = props => {
       </table>
     </div>
   );
+};
+
+ScoreTable.propTypes = {
+  scores: PropTypes.array
 };
 
 export default ScoreTable;

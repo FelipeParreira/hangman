@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class CharacterInput extends Component {
   constructor(props) {
@@ -36,7 +37,6 @@ class CharacterInput extends Component {
           onChange={this.handleInputCharacterChange} />
         <button
           type="submit"
-          placeholder="Insert a character..."
           onClick={(e) => {
             handleSubmitCharClick(e, currentCharacter);
             this.setState({
@@ -49,5 +49,9 @@ class CharacterInput extends Component {
     );
   }
 }
+
+CharacterInput.propTypes = {
+  handleSubmitCharClick: PropTypes.func
+};
 
 export default CharacterInput;
