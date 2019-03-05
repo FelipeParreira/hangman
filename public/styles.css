@@ -67,6 +67,14 @@ button.restart-game {
   display: block;
   width: 100%;
   margin-left: 50px;
+  position: absolute;
+  bottom: 60px;
+  right: 0px;
+}
+
+.score-table table {
+  margin-top: 40px;
+  position: relative;
 }
 
 .score-table table, th, td {

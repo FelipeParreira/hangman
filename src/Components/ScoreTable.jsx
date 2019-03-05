@@ -7,8 +7,8 @@ const ScoreTable = props => {
   return (
     <div className="score-table">
       <table>
+        <caption>Score Table</caption>
         <thead>
-          <caption>Score Table</caption>
           <tr>
             <th>Wrong Guesses</th>
             <th>Word</th> 
