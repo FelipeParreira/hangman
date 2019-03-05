@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import randomWords from 'random-words';
 import CharacterInput from './CharacterInput.jsx';
+import ScoreTable from './ScoreTable.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +12,6 @@ class App extends Component {
       currentWord: {},
       wrongChars: new Set(),
       displayedChars: [],
-      blockInput: false,
       wins: 0,
       losses: 0,
       level: 'easy',
@@ -47,14 +47,13 @@ class App extends Component {
       guessesLeft: Math.ceil(0.6 * randomWord.length),
       currentWord,
       displayedChars: new Array(randomWord.length).fill('__'),
-      wrongChars: new Set(),
-      blockInput: false
+      wrongChars: new Set()
     });
   }
 
   handleSubmitCharClick(event, char) {
     event.preventDefault();
-    let { blockInput, scores, currentWord, guessesLeft, wrongChars, displayedChars, wins, losses } = this.state;
+    let { scores, currentWord, guessesLeft, wrongChars, displayedChars, wins, losses } = this.state;
 
     // exit the function if the char has already been tried
     if (char !== '' && char !== '__' && (wrongChars.has(char) || displayedChars.includes(char))) return;
@@ -96,6 +95,9 @@ class App extends Component {
       }
 
     } else {
+      wrongChars = new Set(wrongChars);
+      wrongChars.add(char);
+      
       if (guessesLeft === 1) {
         losses++;
         scores = scores.concat({ 
@@ -106,8 +108,6 @@ class App extends Component {
       }
 
       guessesLeft && guessesLeft--;
-      wrongChars = new Set(wrongChars);
-      wrongChars.add(char);
 
       this.setState({
         guessesLeft,
@@ -120,10 +120,7 @@ class App extends Component {
         window.alert(`GAME OVER! The word was ${currentWord.word}`);
         this.restartGame();
       }
-      
     }
-
-    console.log('scores inside', scores);
   }
 
   handleLevelChange(event) {
@@ -134,47 +131,31 @@ class App extends Component {
   }
 
   render() {
-  const { scores, currentWord, guessesLeft, wrongChars, displayedChars, wins, losses } = this.state;
-  console.log('currentWord', currentWord);
-  
+  const { scores, guessesLeft, wrongChars, displayedChars, wins, losses } = this.state;
+
   return (
-      <div>
-        <div>Played: {wins + losses} | Wins: {wins} | Losses: {losses}</div>
-        <div>Guesses Left: {guessesLeft}</div>
-        <div>Wrong characters: 
-          {Array.from(wrongChars).map((char, index) => (<span key={char + index}>{char} </span>))}
+      <div className="inner-app-container">
+        <div className="game-info">
+          <div>Played: {wins + losses} | Wins: {wins} | Losses: {losses}</div>
+          <div>Guesses Left: {guessesLeft}</div>
+          <div>Wrong characters: 
+            {Array.from(wrongChars).map((char, index) => (<span key={char + index}>{char} </span>))}
+          </div>
         </div>
-        <div>
+        <div className="displayed-chars">
           {displayedChars.map((char, index) => <span key={char + index}>{char} </span>)}
         </div>
         <CharacterInput handleSubmitCharClick={this.handleSubmitCharClick}/>
-        <select onChange={this.handleLevelChange}>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-        <button onClick={(e) => this.restartGame()}>Restart game!</button>
-        <div>
-          <h3>Score Table</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Wrong Guesses</th>
-                <th>Word</th> 
-                <th>Result</th>
-              </tr>
-            </thead>
-            <tbody>
-              { scores.map(score => (
-                <tr key={score.word}>
-                  <td>{score.wrongGuesses.length}</td>
-                  <td>{score.word}</td> 
-                  <td>{score.won ? 'won' : 'lost'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="level">
+          <span>Level: </span>
+          <select onChange={this.handleLevelChange}>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
         </div>
+        <button className="restart-game" onClick={(e) => this.restartGame()}>Restart game!</button>
+        <ScoreTable scores={scores} />
       </div>
     );
   }

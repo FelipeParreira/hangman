@@ -14,6 +14,7 @@ class CharacterInput extends Component {
   handleInputCharacterChange(event) {
     const char = event.target.value.toUpperCase();
 
+    // the user can only enter one character at a time
     if (char.length > 1) {
       return;
     }
@@ -28,12 +29,11 @@ class CharacterInput extends Component {
     const { handleSubmitCharClick } = this.props;
 
     return (
-      <div>
+      <div className="char-input">
         <input 
           type="text" 
           value={currentCharacter} 
-          onChange={this.handleInputCharacterChange}>
-        </input>
+          onChange={this.handleInputCharacterChange} />
         <button
           type="submit"
           placeholder="Insert a character..."
@@ -42,9 +42,8 @@ class CharacterInput extends Component {
             this.setState({
               currentCharacter: ''
             });
-          }}
-        >
-          Submit!
+          }}>
+          Guess!
         </button>
       </div>
     );
